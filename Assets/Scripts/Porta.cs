@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class Porta : MonoBehaviour
 {
@@ -9,8 +9,10 @@ public class Porta : MonoBehaviour
     [Header("Movimento ao abrir")]
     public Vector3 direcao = Vector3.right;    
     public float distanciaAbrir = 1.5f;       
-    public float velocidade = 2f;              
-
+    public float velocidade = 2f;
+    [Header("Proxima Fase")]
+    public string ProximaFase = "Fase2";
+    public float TempoAntesDaTroca = 2f;
     Vector3 posicaoAberta;
 
     void Start()
@@ -25,6 +27,7 @@ public class Porta : MonoBehaviour
         if (correta)
         {
             aberta = true;
+            Invoke(nameof(IrParaProximaFase), TempoAntesDaTroca);
             return "Você acertou a porta!";
         }
             return "Trancada! Tente outra porta.";
@@ -38,5 +41,9 @@ public class Porta : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, posicaoAberta, velocidade * Time.deltaTime);
                 
         }
+    }
+    void IrParaProximaFase()
+    {
+        SceneManager.LoadScene(ProximaFase);
     }
 }
